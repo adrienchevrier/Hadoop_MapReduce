@@ -11,6 +11,8 @@
  	   public static class Map extends MapReduceBase implements Mapper<LongWritable, Text, IntWritable, Text> {
  	     private IntWritable idx = new Text();
          private Text rowValue = new Text();
+		   /*Entry is a key corrseponding to the line and a value corresponding to a row in the dataset*/
+		   /*Output is a couple with each word of the line and its column index*/
  	     public void map(LongWritable key, Text value, OutputCollector<IntWritable, Text> output, Reporter reporter) throws IOException {
  	       String line = value.toString();
  	       /*Read next line stored in buffer*/
@@ -24,9 +26,11 @@
             }
  	     }
  	   }
-
+		
 	   public static class Reduce extends MapReduceBase implements Reducer<IntWritable, Text, Text, IntWritable> {
          private Text line = new Text();
+		   /*reduce takes as input the couples word/column index*/
+		   /*Output is a row with each row at its new line position*/
          public void reduce(IntWritable key, Iterable<Text> values, OutputCollector<IntWritable, Text> output, Reporter reporter) throws IOException {
  	      
             String row = "";
